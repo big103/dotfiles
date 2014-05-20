@@ -1,0 +1,59 @@
+# プレフィックス変更
+set-option -g prefix C-t
+bind-key C-t send-prefix
+unbind-key C-b
+# ペイン開始番号
+set-option -g base-index 1
+# -r の連続入力待機ミリ秒。デフォは500
+set-option -g repeat-time 1000
+# 256色表示
+set-option -g default-terminal screen-256color
+# コピーモード vi
+set-window-option -g mode-keys vi
+
+set-option -g history-limit 10000
+set -g terminal-overrides 'xterm*:smcup@:rmcup@'
+
+# コピーモードのbufferをOSのクリップボードへコピー
+bind y run-shell 'tmux-pbcopy'
+# conf Reload
+bind r source-file ~/.tmux.conf \; display-message "Reload Config!!"
+# コピーモードのキーバインド確認
+bind / list-keys -t vi-copy
+# コピーモードで１行コピー
+bind-key -t vi-copy Y copy-line
+# コピーモード終わりでクリップボードへコピりたかった…
+# 複数コマンド実行もshell実行もコピーモードはダメぽ
+# bind-key -t vi-copy Enter copy-selection \; run-shell 'tmux-pbcopy'
+# ペインサイズ変更
+bind-key -r k resize-pane -U
+bind-key -r j resize-pane -D
+bind-key -r h resize-pane -L
+bind-key -r l resize-pane -R
+# ペイン同時入力切替
+set-option -g synchronize-panes off
+bind-key e set-window-option synchronize-panes on \; set-option -g status-bg red \; display 'synchronize begin'
+bind-key E set-window-option synchronize-panes off \; set-option -g status-bg green \; display 'synchronize end'
+
+# マウス操作切替
+# set-option -g mode-mouse on
+# set-option -g mouse-select-pane on
+# set-option -g mouse-resize-pane on
+# set-option -g mouse-select-window on
+# マウス操作切替
+set-option -g mode-mouse          off
+set-option -g mouse-select-pane   off
+set-option -g mouse-resize-pane   off
+set-option -g mouse-select-window off
+bind-key m \
+  set -g mode-mouse          on \; \
+  set -g mouse-select-pane   on \; \
+  set -g mouse-resize-pane   on \; \
+  set -g mouse-select-window on \; \
+  display "Mouse: ON"
+bind-key M \
+  set -g mode-mouse          off \; \
+  set -g mouse-select-pane   off \; \
+  set -g mouse-resize-pane   off \; \
+  set -g mouse-select-window off \; \
+  display "Mouse: OFF"
